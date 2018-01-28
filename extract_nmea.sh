@@ -1,3 +1,3 @@
-#!/bin/sh
+#!/bin/bash
 
-grep -aoE $'(\$G[A-Z]+RMC[A-Z\.,*0-9]+)\r\n' d6pro.data
+grep -aoE $'\$G[A-Z]+RMC[A-Z\.,*0-9]+\n\r' samples/d6pro.data
