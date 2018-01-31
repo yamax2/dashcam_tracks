@@ -20,5 +20,5 @@ grep -aoE $'\$G[A-Z]+RMC[A-Z\.,*0-9]+\n' out.data > out.nmea
 ```
 4.  Полученные данные преобразовать в gpx с помощью `parse.rb`
 ```bash
-ruby parse.rn
+ruby parse.rb
 ```
