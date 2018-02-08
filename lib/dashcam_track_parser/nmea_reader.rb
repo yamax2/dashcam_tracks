@@ -32,8 +32,6 @@ module DashcamTrackParser
           ww: row[6]
         )
 
-        check_bounds lat, lon if lat && lon
-
         hash = {
           timestamp: timestamp.strftime(TIME_FORMAT),
           bb: bb,
@@ -42,7 +40,11 @@ module DashcamTrackParser
           lon: lon
         }
 
-        yield hash if prev_hash.nil? || hash != prev_hash
+        if prev_hash.nil? || hash != prev_hash
+          check_bounds lat, lon if lat && lon
+          yield hash
+        end
+
         prev_hash = hash
       end
     end
