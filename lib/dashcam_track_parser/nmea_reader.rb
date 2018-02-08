@@ -16,6 +16,8 @@ module DashcamTrackParser
     # ["$GNRMC", "061414.000", "A", "6046.6769", "N", "04619.2771",
     #  "E", "0.08", "201.75", "050118", nil, nil, "D*74"]
     def read
+      prev_hash = nil
+
       CSV.open(nmea_file, 'r').each do |row|
         timestamp = Time.strptime("#{row[9]} #{row[1]}", '%d%m%y %H%M%S.%L')
         next if timestamp.year < 1990
@@ -32,13 +34,16 @@ module DashcamTrackParser
 
         check_bounds lat, lon if lat && lon
 
-        yield({
+        hash = {
           timestamp: timestamp.strftime(TIME_FORMAT),
           bb: bb,
           speed: speed,
           lat: lat,
           lon: lon
-        })
+        }
+
+        yield hash if prev_hash.nil? || hash != prev_hash
+        prev_hash = hash
       end
     end
 
